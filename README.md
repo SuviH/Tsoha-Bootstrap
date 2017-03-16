@@ -7,4 +7,5 @@ Yleisiä linkkejä:
 
 ## Työn aihe
 Drinkkiarkisto
-[linkki valmiiseen aiheeseen](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Drinkkiarkisto.html) 
+
+[Linkki aiheeseen](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Drinkkiarkisto.html) 
