@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Drinkkiarkisto</h1>
+  <h2>Drinkit aakkosjärjestyksessä</h2>
+
+  <p>
+    <a href="#" class="btn btn-success">Lisää juoma</a>
+  </p>
+
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Drinkki</th>
+        <th>Lisäyspäivä</th>
+        <th>Lisääjä</th>
+        <th>Tyyppi</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      
+      <tr>
+        <td><a href="#">Kossukola</a></td>
+        <td>22.3.2017</td>
+        <td>Suvi</td>
+        <td>All day</td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}

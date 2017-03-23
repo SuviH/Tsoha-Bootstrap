@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Kossukola</h1>
+<!-- Painikkeet tähän -->
+<p>
+    <button class="btn btn-danger">Poista</button> <a href="#" class="btn btn-default">Muokkaa</a>
+</p>
+<!-- Tiedot tulee listana tähän -->
+<ul>
+    <li><strong>Lisäyspäivä:</strong> 22.3.2017</li>
+    <li><strong>Lisääjä:</strong> Suvi</li>
+    <li><strong>Tyyppi:</strong> All day</li>
+</ul>
+<!-- Kuvaus tulee tähän -->
+<p>
+    Yksinkertainen, mutta maistuva ja raikas drinkki!
+</p>
+<h2>Resepti</h2>
+<table style="width:25%">
+    <tr>
+        <th>Määrä</th>
+        <th>Ainesosa</th>
+    </tr>
+    <tr>
+        <td>4 cl</td>
+        <td>Koskenkorvaa</td>
+    </tr>
+    <tr>
+        <td>1,5 dl</td>
+        <td>Kolaa</td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td>Jäitä</td>
+    </tr>
+</table> 
+<h3>Valmistusohje</h3>
+<p>
+    Laita jäät lasiin ja kaada päälle muut ainekset. Sekoita ja nauti!
+</p>
+{% endblock %}

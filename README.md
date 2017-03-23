@@ -2,7 +2,11 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](https://www.cs.helsinki.fi)
+* [Linkki sovellukseeni](http://siheinon.users.cs.helsinki.fi/Drinkkiarkisto/)
+* [Etusivulle](http://siheinon.users.cs.helsinki.fi/Drinkkiarkisto/etusivu)
+* [Drinkkien listaukseen](http://siheinon.users.cs.helsinki.fi/Drinkkiarkisto/listaus)
+* [Drinkin esittely](http://siheinon.users.cs.helsinki.fi/Drinkkiarkisto/drinkki)
+* [Drinkin muokkaus](http://siheinon.users.cs.helsinki.fi/Drinkkiarkisto/drinkinmuokkaus)
 * [Dokumentaatio](doc/dokumentaatio.pdf)
 
 ## Työn aihe
