@@ -4,6 +4,10 @@ CREATE TABLE Kayttaja(
   nimi varchar(50) NOT NULL, 
   salasana varchar(50) NOT NULL
 );
+CREATE TABLE Tyyppi(
+  id SERIAL PRIMARY KEY,
+  nimi varchar(50)
+);
 CREATE TABLE Drinkki(
   id SERIAL PRIMARY KEY,
   kayttaja_id INTEGER REFERENCES Kayttaja(id),
@@ -27,8 +31,4 @@ CREATE TABLE Ainesosa(
   raakaAine_id INTEGER REFERENCES RaakaAine(id),
   mitta_id INTEGER REFERENCES Mittayksikko(id),
   maara integer
-);
-CREATE TABLE Tyyppi(
-  id SERIAL PRIMARY KEY,
-  nimi varchar(50)
 );
