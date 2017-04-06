@@ -8,8 +8,12 @@
     }
 
     public static function sandbox(){
-      // Testaa koodiasi täällä
-      View::make('helloworld.html');
+      
+      $kola = Drinkki::find(1);
+      $drinkit = Drinkki::all();
+      Kint::dump($drinkit);
+      Kint::dump($kola);
+      
     }
     public static function etusivu(){
         View::make('suunnitelmat/etusivu.html');

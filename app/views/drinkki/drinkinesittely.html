@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{drinkki.nimi}}</h1>
+
+
+  <form method="post" action="{{base_path}}/drinkki/poista" style="display: inline-block;">
+      <input type="hidden" name="id" value={{drinkki.id}}>
+  <button type="submit" class="btn btn-danger">Poista</button>
+  </form>
+  <a href="#" class="btn btn-default">Muokkaa</a>
+<!-- Tiedot tulee listana tähän -->
+<ul>
+    <li><strong>Lisäyspäivä:</strong> {{drinkki.lisayspaiva}}</li>
+    <li><strong>Lisääjä:</strong> {{drinkki.kayttaja_id}}</li>
+    <li><strong>Tyyppi:</strong> {{drinkki.tyyppi}}</li>
+</ul>
+
+<p>
+    {{drinkki.kuvaus}}
+</p>
+<h2>Resepti</h2>
+<table style="width:25%">
+    <tr>
+        <th>Määrä</th>
+        <th>Ainesosa</th>
+    </tr>
+    <tr>
+        <td>4 cl</td>
+        <td>Koskenkorvaa</td>
+    </tr>
+    <tr>
+        <td>1,5 dl</td>
+        <td>Kolaa</td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td>Jäitä</td>
+    </tr>
+</table> 
+<h3>Valmistusohje</h3>
+<p>
+    {{drinkki.valmistusohje}}
+</p>
+{% endblock %}

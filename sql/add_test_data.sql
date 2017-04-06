@@ -5,9 +5,7 @@ INSERT INTO Drinkki (kayttaja_id, nimi, kuvaus, lisayspaiva, valmistusohje) VALU
 
 INSERT INTO Tyyppi (nimi) VALUES ('cocktail');
 
-INSERT INTO Mittayksikko (nimi) VALUES ('cl');
-
 INSERT INTO RaakaAine (nimi) VALUES ('kola');
 
-INSERT INTO Ainesosa (drinkki_id, raakaAine_id, mitta_id, maara) VALUES (1, 1, 1, 4);
+INSERT INTO Ainesosa (drinkki_id, raakaAine_id, maara) VALUES (1, 1, '1,5 dl');
 
