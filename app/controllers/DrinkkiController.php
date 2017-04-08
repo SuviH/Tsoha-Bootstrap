@@ -40,7 +40,7 @@ class DrinkkiController extends BaseController {
     // Kutsutaan alustamamme olion save metodia, joka tallentaa olion tietokantaan
     $drinkki->save();
 
-    // Ohjataan käyttäjä lisäyksen jälkeen pelin esittelysivulle
+    // Ohjataan käyttäjä lisäyksen jälkeen drinkin esittelysivulle
     Redirect::to('/drinkki/' . $drinkki->id, array('message' => 'Uusi drinkki lisätty!'));
   }
   public static function poistadrinkki(){

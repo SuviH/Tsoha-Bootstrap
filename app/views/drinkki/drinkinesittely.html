@@ -24,18 +24,12 @@
         <th>Määrä</th>
         <th>Ainesosa</th>
     </tr>
+    {%for ainesosa in drinkki.ainesosat%}
     <tr>
-        <td>4 cl</td>
-        <td>Koskenkorvaa</td>
+        <td>{{ainesosa.maara}}</td>
+        <td>{{ainesosa.raakaAine}}</td>
     </tr>
-    <tr>
-        <td>1,5 dl</td>
-        <td>Kolaa</td>
-    </tr>
-    <tr>
-        <td> </td>
-        <td>Jäitä</td>
-    </tr>
+    {%endfor%}
 </table> 
 <h3>Valmistusohje</h3>
 <p>

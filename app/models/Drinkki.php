@@ -14,7 +14,7 @@
 class Drinkki extends BaseModel {
 
     // Attribuutit
-    public $id, $kayttaja_id, $nimi, $kuvaus, $lisayspaiva, $tyyppi, $valmistusohje;
+    public $id, $kayttaja_id, $nimi, $kuvaus, $lisayspaiva, $tyyppi, $valmistusohje, $ainesosat;
 
     // Konstruktori
     public function __construct($attributes) {
@@ -23,17 +23,17 @@ class Drinkki extends BaseModel {
     }
 
     public static function all() {
-        
+
         $query = DB::connection()->prepare('SELECT * FROM Drinkki');
-        
+
         $query->execute();
-        
+
         $rows = $query->fetchAll();
         $drinkit = array();
 
-        
+
         foreach ($rows as $row) {
-            
+
             $drinkit[] = new Drinkki(array(
                 'id' => $row['id'],
                 'kayttaja_id' => $row['kayttaja_id'],
@@ -47,51 +47,95 @@ class Drinkki extends BaseModel {
 
         return $drinkit;
     }
-    public static function find($id){
-    $query = DB::connection()->prepare('SELECT * FROM Drinkki WHERE id = :id LIMIT 1');
-    $query->execute(array('id' => $id));
-    $row = $query->fetch();
 
-    if($row){
-      $drinkki = new Drinkki(array(
-        'id' => $row['id'],
-        'kayttaja_id' => $row['kayttaja_id'],
-        'nimi' => $row['nimi'],
-        'kuvaus' => $row['kuvaus'],
-        'lisayspaiva' => $row['lisayspaiva'],
-        'tyyppi' => $row['tyyppi'],
-        'valmistusohje' => $row['valmistusohje']
-      ));
+    public static function find($id) {
+        $query = DB::connection()->prepare('SELECT * FROM Drinkki WHERE id = :id LIMIT 1');
+        $query->execute(array('id' => $id));
+        $row = $query->fetch();
+        $query2 = DB::connection()->prepare('SELECT RaakaAine.nimi, Ainesosa.maara FROM Ainesosa, RaakaAine WHERE Ainesosa.drinkki_id = :id AND Ainesosa.raakaAine_id = RaakaAine.id');
+        $query2->execute(array('id' => $id));
+        $rows = $query2->fetchAll();
+        $ainesosat = array();
+        foreach ($rows as $rivi) {
 
-      return $drinkki;
+            $ainesosat[] = array(
+                'raakaAine' => $rivi['nimi'],
+                'maara' => $rivi['maara'],
+            );
+        }
+        if ($row) {
+            $drinkki = new Drinkki(array(
+                'id' => $row['id'],
+                'kayttaja_id' => $row['kayttaja_id'],
+                'nimi' => $row['nimi'],
+                'kuvaus' => $row['kuvaus'],
+                'lisayspaiva' => $row['lisayspaiva'],
+                'tyyppi' => $row['tyyppi'],
+                'valmistusohje' => $row['valmistusohje']
+            ));
+            $drinkki->ainesosat = $ainesosat;
+
+            return $drinkki;
+        }
+
+        return null;
     }
 
-    return null;
-  }
-  public function save(){
-    $query = DB::connection()->prepare('INSERT INTO Drinkki (nimi, kuvaus, valmistusohje) VALUES (:nimi, :kuvaus, :valmistusohje) RETURNING id');
-    
-    $query->execute(array('nimi' => $this->nimi, 'kuvaus' => $this->kuvaus, 'valmistusohje' => $this->valmistusohje));
-    
-    $row = $query->fetch();
-    $this->id = $row['id'];
-  }
-  public function poista(){
-    $query = DB::connection()->prepare('DELETE FROM Drinkki WHERE id = :id');
-    
-    $query->execute(array('id' => $this->id));
-    
-  }
-  public function validate_name(){
-  $errors = array();
-  if($this->nimi == '' || $this->nimi == null){
-    $errors[] = 'Nimi ei saa olla tyhjä!';
-  }
-  if(strlen($this->nimi) < 2){
-    $errors[] = 'Nimen pituuden tulee olla vähintään kolme merkkiä!';
-  }
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Drinkki (nimi, kuvaus, valmistusohje) VALUES (:nimi, :kuvaus, :valmistusohje) RETURNING id');
 
-  return $errors;
-}
+        $query->execute(array('nimi' => $this->nimi, 'kuvaus' => $this->kuvaus, 'valmistusohje' => $this->valmistusohje));
+
+        $row = $query->fetch();
+        $this->id = $row['id'];
+    }
+
+    public static function muokkaa($id) {
+        $drinkki = Drinkki::find($id);
+        View::make('drinkki/muokkaadrinkkia.html', array('attributes' => $drinkki));
+    }
+
+    // muokkaaminen (lomakkeen käsittely)
+    public static function muokkaaminen($id) {
+        $params = $_POST;
+
+        $attributes = array(
+            'id' => $id,
+            'nimi' => $params['nimi'],
+            'kuvaus' => $params['kuvaus'],
+            'lisayspaiva' => $params['lisayspaiva'],
+            'tyyppi' => $params['tyyppi'],
+            'valmistusohje' => $params['valmistusohje']
+        );
+
+        $drinkki = new Drinkki($attributes);
+        //$errors = $game->errors();
+        //if (count($errors) > 0) {
+        //    View::make('game/edit.html', array('errors' => $errors, 'attributes' => $attributes));
+        //} else {
+        // Kutsutaan alustetun olion update-metodia, joka päivittää pelin tiedot tietokannassa
+        $drinkki->update();
+
+        Redirect::to('/drinkki/' . $drinkki->id, array('message' => 'Drinkkiä muokattu!'));
+        //}
+    }
+
+    public function poista() {
+        $query = DB::connection()->prepare('DELETE FROM Drinkki WHERE id = :id');
+
+        $query->execute(array('id' => $this->id));
+    }
+
+    public function validate_name() {
+        $errors = array();
+        if ($this->nimi == '' || $this->nimi == null) {
+            $errors[] = 'Nimi ei saa olla tyhjä!';
+        }
+        if (strlen($this->nimi) < 2) {
+            $errors[] = 'Nimen pituuden tulee olla vähintään kolme merkkiä!';
+        }
+
+        return $errors;
+    }
 
 }

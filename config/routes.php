@@ -40,3 +40,11 @@ $routes->get('/drinkki/:id', function($id) {
 $routes->post('/drinkki/poista', function() {
     DrinkkiController::poistadrinkki();
 });
+$routes->get('/drinkki/:id/muokkaa', function($id){
+  // Pelin muokkauslomakkeen esittäminen
+  DrinkkiController::muokkaa($id);
+});
+$routes->post('/game/:id/muokkaa', function($id){
+  
+  DrinkkiController::muokkaaminen($id);
+});
