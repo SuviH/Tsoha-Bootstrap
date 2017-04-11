@@ -90,34 +90,15 @@ class Drinkki extends BaseModel {
         $this->id = $row['id'];
     }
 
-    public static function muokkaa($id) {
-        $drinkki = Drinkki::find($id);
-        View::make('drinkki/muokkaadrinkkia.html', array('attributes' => $drinkki));
-    }
 
     // muokkaaminen (lomakkeen käsittely)
-    public static function muokkaaminen($id) {
-        $params = $_POST;
+    public function muokkaaminen() {
+        $query = DB::connection()->prepare('UPDATE Drinkki SET nimi = :nimi, kuvaus = :kuvaus, valmistusohje = :valmistusohje WHERE id = :id');
 
-        $attributes = array(
-            'id' => $id,
-            'nimi' => $params['nimi'],
-            'kuvaus' => $params['kuvaus'],
-            'lisayspaiva' => $params['lisayspaiva'],
-            'tyyppi' => $params['tyyppi'],
-            'valmistusohje' => $params['valmistusohje']
-        );
+        $query->execute(array('nimi' => $this->nimi, 'kuvaus' => $this->kuvaus, 'valmistusohje' => $this->valmistusohje, 'id' => $this->id));
 
-        $drinkki = new Drinkki($attributes);
-        //$errors = $game->errors();
-        //if (count($errors) > 0) {
-        //    View::make('game/edit.html', array('errors' => $errors, 'attributes' => $attributes));
-        //} else {
-        // Kutsutaan alustetun olion update-metodia, joka päivittää pelin tiedot tietokannassa
-        $drinkki->update();
-
-        Redirect::to('/drinkki/' . $drinkki->id, array('message' => 'Drinkkiä muokattu!'));
-        //}
+        $row = $query->fetch();
+        
     }
 
     public function poista() {

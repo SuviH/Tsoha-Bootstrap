@@ -43,6 +43,35 @@ class DrinkkiController extends BaseController {
     // Ohjataan käyttäjä lisäyksen jälkeen drinkin esittelysivulle
     Redirect::to('/drinkki/' . $drinkki->id, array('message' => 'Uusi drinkki lisätty!'));
   }
+  public static function muokkaa($id) {
+        $drinkki = Drinkki::find($id);
+        View::make('drinkki/drinkinmuokkaus.html', array('drinkki' => $drinkki));
+    }
+
+    // muokkaaminen (lomakkeen käsittely)
+    public static function muokkaaminen($id) {
+        $params = $_POST;
+
+        $attributes = array(
+            'id' => $id,
+            'nimi' => $params['nimi'],
+            'kuvaus' => $params['kuvaus'],
+            'tyyppi' => $params['tyyppi'],
+            'valmistusohje' => $params['valmistusohje']
+        );
+
+        $drinkki = new Drinkki($attributes);
+        
+        //$errors = $game->errors();
+        //if (count($errors) > 0) {
+        //    View::make('game/edit.html', array('errors' => $errors, 'attributes' => $attributes));
+        //} else {
+        // Kutsutaan alustetun olion update-metodia, joka päivittää pelin tiedot tietokannassa
+        $drinkki->muokkaaminen();
+
+        Redirect::to('/drinkki/' . $drinkki->id, array('message' => 'Drinkkiä muokattu!'));
+        //}
+    }
   public static function poistadrinkki(){
       $params = $_POST;
       
