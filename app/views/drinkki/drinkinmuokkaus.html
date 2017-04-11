@@ -18,18 +18,18 @@
     </div>
     <div id="ainesosat">
     {%for ainesosa in drinkki.ainesosat%}
-    <div class="form-horizontal">
     
+    <div>
     <div class="form-group col-md-4">
       <label>Määrä</label>
-      <input class="form-control" value="{{ainesosa.maara}}" type="text">
+      <input name="maara[]" class="form-control" value="{{ainesosa.maara}}" type="text">
     </div>
     <div class="form-group col-md-6">
       <label>Ainesosa</label>
-      <input class="form-control" value="{{ainesosa.raakaAine}}" type="text">
+      <input name="ainesosa[]" class="form-control" value="{{ainesosa.raakaAine}}" type="text">
     </div>  
-    <br>
-    <div class="form-group">
+    <div class="form-group col-md-2">
+        <br>
       <button type="button" class="btn btn-primary poistaAinesosa">Poista ainesosa</button>
     </div>
     </div>

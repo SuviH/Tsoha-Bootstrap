@@ -18,32 +18,47 @@ class DrinkkiController extends BaseController {
         $drinkit = Drinkki::all();
         View::make('drinkki/drinkkilistaus.html', array('drinkit' => $drinkit));
     }
+
     public static function drinkinesittely($id) {
 
         $drinkki = Drinkki::find($id);
-        
+
         View::make('drinkki/drinkinesittely.html', array('drinkki' => $drinkki));
     }
-    public static function uusidrinkki(){
+
+    public static function uusidrinkki() {
         View::make('drinkki/drinkinlisays.html');
     }
-    public static function drinkinlisays(){
-    // POST-pyynnön muuttujat sijaitsevat $_POST nimisessä assosiaatiolistassa
-    $params = $_POST;
-    
-    $drinkki = new Drinkki(array(
-      'nimi' => $params['nimi'],
-      'kuvaus' => $params['kuvaus'],
-      'valmistusohje' => $params['valmistusohje']
-    ));
 
-    // Kutsutaan alustamamme olion save metodia, joka tallentaa olion tietokantaan
-    $drinkki->save();
+    public static function drinkinlisays() {
+        // POST-pyynnön muuttujat sijaitsevat $_POST nimisessä assosiaatiolistassa
+        $params = $_POST;
+        $maara = $params['maara'];
+        $aine = $params['ainesosa'];
+        $ainesosat = array();
+        for ($i = 0; $i < count($aine); $i++) {
 
-    // Ohjataan käyttäjä lisäyksen jälkeen drinkin esittelysivulle
-    Redirect::to('/drinkki/' . $drinkki->id, array('message' => 'Uusi drinkki lisätty!'));
-  }
-  public static function muokkaa($id) {
+            $ainesosat[] = array(
+                'raakaAine' => $aine[$i],
+                'maara' => $maara[$i],
+            );
+        }
+
+        $drinkki = new Drinkki(array(
+            'nimi' => $params['nimi'],
+            'kuvaus' => $params['kuvaus'],
+            'valmistusohje' => $params['valmistusohje'],
+            'ainesosat' => $ainesosat
+        ));
+
+        // Kutsutaan alustamamme olion save metodia, joka tallentaa olion tietokantaan
+        $drinkki->save();
+
+        // Ohjataan käyttäjä lisäyksen jälkeen drinkin esittelysivulle
+        Redirect::to('/drinkki/' . $drinkki->id, array('message' => 'Uusi drinkki lisätty!'));
+    }
+
+    public static function muokkaa($id) {
         $drinkki = Drinkki::find($id);
         View::make('drinkki/drinkinmuokkaus.html', array('drinkki' => $drinkki));
     }
@@ -51,17 +66,28 @@ class DrinkkiController extends BaseController {
     // muokkaaminen (lomakkeen käsittely)
     public static function muokkaaminen($id) {
         $params = $_POST;
+        $maara = $params['maara'];
+        $aine = $params['ainesosa'];
+        $ainesosat = array();
+        for ($i = 0; $i < count($aine); $i++) {
+
+            $ainesosat[] = array(
+                'raakaAine' => $aine[$i],
+                'maara' => $maara[$i],
+            );
+        }
 
         $attributes = array(
             'id' => $id,
             'nimi' => $params['nimi'],
             'kuvaus' => $params['kuvaus'],
             'tyyppi' => $params['tyyppi'],
-            'valmistusohje' => $params['valmistusohje']
+            'valmistusohje' => $params['valmistusohje'],
+            'ainesosat' => $ainesosat
         );
 
         $drinkki = new Drinkki($attributes);
-        
+
         //$errors = $game->errors();
         //if (count($errors) > 0) {
         //    View::make('game/edit.html', array('errors' => $errors, 'attributes' => $attributes));
@@ -72,13 +98,14 @@ class DrinkkiController extends BaseController {
         Redirect::to('/drinkki/' . $drinkki->id, array('message' => 'Drinkkiä muokattu!'));
         //}
     }
-  public static function poistadrinkki(){
-      $params = $_POST;
-      
-      $drinkki = Drinkki::find($params['id']);
-      $drinkki->poista();
-      Redirect::to('/drinkkilistaus', array('message' => 'Drinkki poistettu!'));
-  }
+
+    public static function poistadrinkki() {
+        $params = $_POST;
+
+        $drinkki = Drinkki::find($params['id']);
+        $drinkki->poista();
+        Redirect::to('/drinkkilistaus', array('message' => 'Drinkki poistettu!'));
+    }
 
     //put your code here
 }

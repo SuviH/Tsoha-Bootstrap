@@ -40,7 +40,7 @@ class Drinkki extends BaseModel {
                 'nimi' => $row['nimi'],
                 'kuvaus' => $row['kuvaus'],
                 'lisayspaiva' => $row['lisayspaiva'],
-                'tyyppi' => $row['tyyppi'],
+                'tyyppi' => $row['tyyppi_id'],
                 'valmistusohje' => $row['valmistusohje'],
             ));
         }
@@ -70,7 +70,7 @@ class Drinkki extends BaseModel {
                 'nimi' => $row['nimi'],
                 'kuvaus' => $row['kuvaus'],
                 'lisayspaiva' => $row['lisayspaiva'],
-                'tyyppi' => $row['tyyppi'],
+                'tyyppi' => $row['tyyppi_id'],
                 'valmistusohje' => $row['valmistusohje']
             ));
             $drinkki->ainesosat = $ainesosat;
@@ -88,6 +88,26 @@ class Drinkki extends BaseModel {
 
         $row = $query->fetch();
         $this->id = $row['id'];
+        $id = $row['id'];
+        $ainesosat = $this->ainesosat;
+        for ($i = 0; $i < count($ainesosat); $i++) {
+            $query = DB::connection()->prepare('SELECT id FROM RaakaAine WHERE nimi = :nimi');
+            $query->execute(array('nimi' => $ainesosat[$i]['raakaAine']));
+            $row = $query->fetch();
+            if($row){
+                $raakaAineId = $row['id'];
+            }else{
+                $query = DB::connection()->prepare('INSERT INTO RaakaAine (nimi) VALUES (:nimi) RETURNING id');
+                $query->execute(array('nimi' => $ainesosat[$i]['raakaAine']));
+                $row = $query->fetch();
+                $raakaAineId = $row['id'];
+            }
+            $query = DB::connection()->prepare('INSERT INTO Ainesosa (drinkki_id, raakaAine_id, maara) VALUES (:drinkki, :raakaaine, :maara)');
+            
+            $query->execute(array('drinkki' => $id, 'raakaaine' => $raakaAineId, 'maara' => $ainesosat[$i]['maara']));
+            
+            
+        }
     }
 
 
@@ -113,7 +133,7 @@ class Drinkki extends BaseModel {
             $errors[] = 'Nimi ei saa olla tyhjä!';
         }
         if (strlen($this->nimi) < 2) {
-            $errors[] = 'Nimen pituuden tulee olla vähintään kolme merkkiä!';
+            $errors[] = 'Nimen pituuden tulee olla vähintään kaksi merkkiä!';
         }
 
         return $errors;

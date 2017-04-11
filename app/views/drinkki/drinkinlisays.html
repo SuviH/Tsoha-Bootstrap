@@ -1,25 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Lisää uusi drinkki</h1>
+<h1>Lisää uusi drinkki</h1>
 
-  <form method="post" action="{{base_path}}/drinkki">
+<form method="post" action="{{base_path}}/drinkki">
     <div class="form-group">
-      <label>Nimi</label>
-      <input name="nimi" class="form-control" type="text">
+        <label>Nimi</label>
+        <input name="nimi" class="form-control" type="text">
     </div>
 
     <div class="form-group">
-      <label>Kuvaus</label>
-      <input name="kuvaus" class="form-control" type="text">
+        <label>Kuvaus</label>
+        <input name="kuvaus" class="form-control" type="text">
+    </div>
+    <div id="ainesosat">
+    <div>
+        <div class="form-group col-md-4">
+            <label>Määrä</label>
+            <input name="maara[]" class="form-control" value="{{ainesosa.maara}}" type="text">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Ainesosa</label>
+            <input name="ainesosa[]" class="form-control" value="{{ainesosa.raakaAine}}" type="text">
+        </div>  
+        <div class="form-group col-md-2">
+            <br>
+            <button type="button" class="btn btn-primary poistaAinesosa">Poista ainesosa</button>
+        </div>
+    </div>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-primary lisaaAinesosa">Lisää uusi ainesosa</button>
     </div>
 
     <div class="form-group">
-      <label>Valmistusohje</label>
-      <textarea name="valmistusohje" class="form-control"></textarea>
+        <label>Valmistusohje</label>
+        <textarea name="valmistusohje" class="form-control"></textarea>
     </div>
 
     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Lisää</button>
+        <button type="submit" class="btn btn-primary">Lisää</button>
     </div>
-  </form>
+</form>
 {% endblock %}
