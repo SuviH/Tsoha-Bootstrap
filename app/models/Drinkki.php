@@ -40,7 +40,6 @@ class Drinkki extends BaseModel {
                 'nimi' => $row['nimi'],
                 'kuvaus' => $row['kuvaus'],
                 'lisayspaiva' => $row['lisayspaiva'],
-                'tyyppi' => $row['tyyppi_id'],
                 'valmistusohje' => $row['valmistusohje'],
             ));
         }
@@ -70,7 +69,6 @@ class Drinkki extends BaseModel {
                 'nimi' => $row['nimi'],
                 'kuvaus' => $row['kuvaus'],
                 'lisayspaiva' => $row['lisayspaiva'],
-                'tyyppi' => $row['tyyppi_id'],
                 'valmistusohje' => $row['valmistusohje']
             ));
             $drinkki->ainesosat = $ainesosat;
@@ -127,6 +125,10 @@ class Drinkki extends BaseModel {
     
 
     public function poista() {
+        $query = DB::connection()->prepare('DELETE FROM Ainesosa WHERE drinkki_id = :id');
+
+        $query->execute(array('id' => $this->id));
+        
         $query = DB::connection()->prepare('DELETE FROM Drinkki WHERE id = :id');
 
         $query->execute(array('id' => $this->id));

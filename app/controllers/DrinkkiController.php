@@ -89,7 +89,6 @@ class DrinkkiController extends BaseController {
             'id' => $id,
             'nimi' => $params['nimi'],
             'kuvaus' => $params['kuvaus'],
-            'tyyppi' => $params['tyyppi'],
             'valmistusohje' => $params['valmistusohje'],
             'ainesosat' => $ainesosat
         );
