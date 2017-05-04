@@ -82,7 +82,7 @@ class Drinkki extends BaseModel {
     }
 
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Drinkki (nimi, kuvaus, valmistusohje) VALUES (:nimi, :kuvaus, :valmistusohje) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Drinkki (nimi, kuvaus, valmistusohje,lisayspaiva) VALUES (:nimi, :kuvaus, :valmistusohje,NOW()) RETURNING id');
 
         $query->execute(array('nimi' => $this->nimi, 'kuvaus' => $this->kuvaus, 'valmistusohje' => $this->valmistusohje));
 

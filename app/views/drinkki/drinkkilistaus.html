@@ -6,14 +6,14 @@
   <p>
     <a href="{{base_path}}/drinkki/lisaa" class="btn btn-success">Lisää juoma</a>
   </p>
-
+  {% if message %}<p>{{message}}</p>{%endif%}
   <table class="table table-striped table-bordered">
     <thead>
       <tr>
         <th>Drinkki</th>
         <th>Lisäyspäivä</th>
-        <th>Lisääjä</th>
-        <th>Tyyppi</th>
+        
+        
       </tr>
     </thead>
 
@@ -22,8 +22,8 @@
       <tr>
         <td><a href="{{base_path}}/drinkki/{{drinkki.id}}">{{drinkki.nimi}}</td>
         <td>{{drinkki.lisayspaiva}}</td>
-        <td>{{drinkki.kayttaja_id}}</td>
-        <td>{{drinkki.tyyppi}}</td>
+        
+        
       </tr>
       {% endfor %}
     </tbody>

@@ -52,6 +52,10 @@ $routes->get('/login', function(){
   // Kirjautumislomakkeen esittäminen
   KayttajaController::login();
 });
+$routes->get('/logout', function(){
+  // Kirjautumislomakkeen esittäminen
+  KayttajaController::logout();
+});
 $routes->post('/login', function(){
   // Kirjautumisen käsittely
   KayttajaController::handle_login();

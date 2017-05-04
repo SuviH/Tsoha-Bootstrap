@@ -16,14 +16,16 @@ class KayttajaController extends BaseController {
     public static function login() {
         View::make('user/kirjautuminen.html');
     }
-
+    public static function logout(){
+        session_destroy();
+        Redirect::to('/etusivu');
+    }
     public static function handle_login() {
         $params = $_POST;
         
         $kayttaja = Kayttaja::authenticate($params['nimi'], $params['salasana']);
-        var_dump($kayttaja);
         if (!$kayttaja) {
-            View::make('user/kirjautuminen.html', array('error' => 'Väärä käyttäjätunnus tai salasana!', 'nimi' => $params['nimi']));
+            View::make('user/kirjautuminen.html', array('message' => 'Väärä käyttäjätunnus tai salasana!', 'nimi' => $params['nimi']));
         } else {
             $_SESSION['kayttaja'] = $kayttaja->id;
 
