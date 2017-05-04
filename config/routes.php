@@ -9,7 +9,7 @@ $routes->get('/hiekkalaatikko', function() {
 });
 
 $routes->get('/etusivu', function() {
-    HelloWorldController::etusivu();
+    DrinkkiController::etusivu();
 });
 
 $routes->get('/listaus', function() {
@@ -47,4 +47,12 @@ $routes->get('/drinkki/:id/muokkaa', function($id){
 $routes->post('/drinkki/:id/muokkaa', function($id){
   
   DrinkkiController::muokkaaminen($id);
+});
+$routes->get('/login', function(){
+  // Kirjautumislomakkeen esittäminen
+  KayttajaController::login();
+});
+$routes->post('/login', function(){
+  // Kirjautumisen käsittely
+  KayttajaController::handle_login();
 });

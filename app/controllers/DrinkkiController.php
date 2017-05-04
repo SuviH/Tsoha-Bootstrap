@@ -12,25 +12,29 @@
  * @author suvi
  */
 class DrinkkiController extends BaseController {
-
+    public static function etusivu(){
+        View::make('drinkki/etusivu.html');
+    }
     public static function drinkkilistaus() {
-
+        self::check_logged_in();
         $drinkit = Drinkki::all();
         View::make('drinkki/drinkkilistaus.html', array('drinkit' => $drinkit));
     }
 
     public static function drinkinesittely($id) {
-
+        self::check_logged_in();
         $drinkki = Drinkki::find($id);
 
         View::make('drinkki/drinkinesittely.html', array('drinkki' => $drinkki));
     }
 
     public static function uusidrinkki() {
+        self::check_logged_in();
         View::make('drinkki/drinkinlisays.html');
     }
 
     public static function drinkinlisays() {
+        self::check_logged_in();
         // POST-pyynnön muuttujat sijaitsevat $_POST nimisessä assosiaatiolistassa
         $params = $_POST;
         $maara = $params['maara'];
@@ -59,12 +63,16 @@ class DrinkkiController extends BaseController {
     }
 
     public static function muokkaa($id) {
+        self::check_logged_in();
         $drinkki = Drinkki::find($id);
         View::make('drinkki/drinkinmuokkaus.html', array('drinkki' => $drinkki));
     }
 
     // muokkaaminen (lomakkeen käsittely)
     public static function muokkaaminen($id) {
+        self::check_logged_in();
+        
+        
         $params = $_POST;
         $maara = $params['maara'];
         $aine = $params['ainesosa'];
@@ -100,6 +108,7 @@ class DrinkkiController extends BaseController {
     }
 
     public static function poistadrinkki() {
+        self::check_logged_in();
         $params = $_POST;
 
         $drinkki = Drinkki::find($params['id']);

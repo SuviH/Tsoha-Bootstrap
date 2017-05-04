@@ -89,6 +89,9 @@ class Drinkki extends BaseModel {
         $row = $query->fetch();
         $this->id = $row['id'];
         $id = $row['id'];
+        $this->ainesosienLisays($id);
+    }
+    public function ainesosienLisays($id){
         $ainesosat = $this->ainesosat;
         for ($i = 0; $i < count($ainesosat); $i++) {
             $query = DB::connection()->prepare('SELECT id FROM RaakaAine WHERE nimi = :nimi');
@@ -105,21 +108,23 @@ class Drinkki extends BaseModel {
             $query = DB::connection()->prepare('INSERT INTO Ainesosa (drinkki_id, raakaAine_id, maara) VALUES (:drinkki, :raakaaine, :maara)');
             
             $query->execute(array('drinkki' => $id, 'raakaaine' => $raakaAineId, 'maara' => $ainesosat[$i]['maara']));
-            
-            
-        }
+        }    
     }
-
 
     // muokkaaminen (lomakkeen käsittely)
     public function muokkaaminen() {
+        
+        
         $query = DB::connection()->prepare('UPDATE Drinkki SET nimi = :nimi, kuvaus = :kuvaus, valmistusohje = :valmistusohje WHERE id = :id');
 
         $query->execute(array('nimi' => $this->nimi, 'kuvaus' => $this->kuvaus, 'valmistusohje' => $this->valmistusohje, 'id' => $this->id));
-
-        $row = $query->fetch();
+        $query = DB::connection()->prepare('DELETE FROM Ainesosa WHERE drinkki_id = :id');
+        $query->execute(array('id' => $this->id));
+        $id = $this->id;
+        $this->ainesosienLisays($id);
         
     }
+    
 
     public function poista() {
         $query = DB::connection()->prepare('DELETE FROM Drinkki WHERE id = :id');
